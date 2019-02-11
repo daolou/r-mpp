@@ -1,7 +1,7 @@
 {
-  "name": "r-mpa",
+  "name": "r-mpp",
   "version": "0.0.1",
-  "description": "react mpa webpack",
+  "description": "react webpack Multi - project package",
   "main": "index.js",
   "scripts": {
     "pre-dev": "node config/dev.js",
@@ -13,7 +13,7 @@
   },
   "keywords": [
     "react",
-    "mpa",
+    "mpp",
     "webpack"
   ],
   "author": "jzg",
