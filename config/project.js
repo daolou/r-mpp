@@ -1,1 +1,1 @@
-exports.name = 'app1'
+exports.name = 'app1';

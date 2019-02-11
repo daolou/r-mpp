@@ -1,14 +1,13 @@
-
-const projectName = require('./project')
+const projectName = require('./project');
 
 const config = {
-  app1:{
-    localPath:'./src/controller/app1/',
+  app1: {
+    localPath: './src/project/app1/',
   },
-  app2:{
-    localPath:'./src/controller/app2/',
+  app2: {
+    localPath: './src/project/app2/',
   },
-}
+};
 
-const configObj = config[projectName.name]
-module.exports = configObj
+const configObj = config[projectName.name];
+module.exports = configObj;

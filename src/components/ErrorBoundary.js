@@ -1,6 +1,10 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class ErrorBoundary extends React.Component {
+  static propTypes = {
+    children: PropTypes.any,
+  };
   constructor(props) {
     super(props);
     this.state = { hasError: false };
@@ -8,6 +12,7 @@ export default class ErrorBoundary extends React.Component {
 
   static getDerivedStateFromError(error) {
     // Update state so the next render will show the fallback UI.
+    console.log(error);
     return { hasError: true };
   }
 
