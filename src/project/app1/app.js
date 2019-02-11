@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import './index.less';
+import './app.less';
 import {
   //   BrowserRouter,
   HashRouter,

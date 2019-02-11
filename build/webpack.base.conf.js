@@ -25,7 +25,7 @@ const getTemplate = function() {
 
 module.exports = {
   entry: {
-    app: projectConfig.localPath + 'index.js',
+    app: projectConfig.localPath + 'app.js',
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
@@ -71,11 +71,16 @@ module.exports = {
     new webpack.ProvidePlugin({}),
     //静态资源输出
     new copyWebpackPlugin([
-      //   {
-      //     from: path.resolve(__dirname, "../src/assets"),
-      //     to: "./assets",
-      //     ignore: [".*"]
-      //   }
+      {
+        from: path.resolve(projectConfig.localPath, './assets'),
+        to: './assets',
+        ignore: ['.*'],
+      },
+      {
+        from: path.resolve(__dirname, '../src/public'),
+        to: './',
+        ignore: ['.*'],
+      },
     ]),
     // 消除冗余的css代码
     new purifyCssWebpack({
