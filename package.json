@@ -7,7 +7,7 @@
     "pre-dev": "node config/dev.js",
     "pre-build": "node config/build.js",
     "pre-analyz": "node config/analyz.js",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server  --config build/webpack.dev.conf.js",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --color --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.conf.js --progress --optimize-minimize --color --colors --hide-modules --display-chunks",
     "analyz": "cross-env NODE_ENV=production webpack --config build/webpack-analyze.config.js --progress --optimize-minimize --color --colors --hide-modules --display-chunks"
   },
@@ -21,6 +21,8 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/plugin-transform-runtime": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.4.7",

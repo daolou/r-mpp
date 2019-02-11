@@ -13,6 +13,7 @@ const webpackConfigDev = {
     publicPath: '/', // 与上下文(output的publicPath)的保持一致
     host: '127.0.0.1',
     port: '8090',
+    compress: false, // 不压缩
     overlay: true, // 浏览器页面上显示错误
     // open: true, // 开启浏览器
     // stats: "errors-only", //stats: "errors-only"表示只打印错误：

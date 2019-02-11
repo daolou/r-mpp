@@ -26,14 +26,14 @@
 │   ├── build.js
 │   ├── dev.js
 │   ├── project.js
-│   └── projectConfig.js  // 工程配置文件,所有的工程均应在此配置
+│   └── projectConfig.js
 ├── package-lock.json
 ├── package.json
 └── src
     ├── components
     │   └── ErrorBoundary.js
     ├── project
-    │   ├── app1  // 工程1
+    │   ├── app1
     │   │   ├── app.js
     │   │   ├── app.less
     │   │   ├── assets
@@ -43,19 +43,25 @@
     │   │       ├── Index.js
     │   │       ├── Questions.js
     │   │       └── components
-    │   ├── app2  // 工程2
+    │   ├── app2
     │   │   ├── app.js
     │   │   ├── app.less
     │   │   ├── assets
     │   │   ├── document.html
     │   │   └── pages
     │   └── document.html
-    ├── public  // 公共资源
+    ├── public
     │   └── favicon.ico
-    └── utils   // 工具封装
+    ├── services
+    │   └── androidBackService.js
+    ├── style
+    │   └── base-mediaquery.less
+    └── utils
+        ├── NDB.js
         ├── index.js
         └── rem.js
 ```
+==ps: 编辑器请安装eslint和prettier插件==
 ## 本地开发
 1. `git clone git@github.com:Mr-jiangzhiguo/r-mpp.git`
 2. `cd r-mpp`
