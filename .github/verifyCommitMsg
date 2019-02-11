@@ -1,8 +1,14 @@
 #!/bin/env node
 
 const chalk = require('chalk')
-const msgPath = process.env.GIT_PARAMS
+const msgPath = process.env.HUSKY_GIT_PARAMS
+if (!msgPath) {
+  console.error(chalk.red(`process.env.HUSKY_GIT_PARAMS can't be ${msgPath},please check`));
+  process.exit(1)
+}
+console.log('HUSKY_GIT_PARAMS: ',msgPath)
 const msg = require('fs').readFileSync(msgPath, 'utf-8').trim()
+console.log(msg)
 
 const commitRE = /^(revert: )?(feat|fix|docs|style|refactor|perf|test|workflow|ci|chore|types)(\(.+\))?: .{1,50}/
 
