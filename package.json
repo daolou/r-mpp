@@ -9,7 +9,9 @@
     "pre-analyz": "node config/analyz.js",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --color --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.conf.js --progress --optimize-minimize --color --colors --hide-modules --display-chunks",
-    "analyz": "cross-env NODE_ENV=production webpack --config build/webpack-analyze.config.js --progress --optimize-minimize --color --colors --hide-modules --display-chunks"
+    "analyz": "cross-env NODE_ENV=production webpack --config build/webpack-analyze.config.js --progress --optimize-minimize --color --colors --hide-modules --display-chunks",
+    "deploy:staging": "node deploy/staging.js",
+    "deploy:prod": "node deploy/production.js"
   },
   "keywords": [
     "react",
