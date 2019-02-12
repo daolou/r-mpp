@@ -103,7 +103,14 @@ const rules = [
     use: isDev
       ? [
           'style-loader',
-          'css-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              camelCase: true,
+              localIdentName: '[name]-[local]-[hash:base64:6]',
+            },
+          },
           {
             loader: 'postcss-loader',
             options: {
@@ -119,7 +126,14 @@ const rules = [
       : extractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                camelCase: true,
+                localIdentName: '[name]-[local]-[hash:base64:6]',
+              },
+            },
             {
               loader: 'postcss-loader',
               options: {
@@ -132,8 +146,6 @@ const rules = [
             },
             'less-loader',
           ],
-          // css中的基础路径
-          publicPath: '../',
         }),
   },
   // {
