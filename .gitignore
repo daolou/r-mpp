@@ -8,7 +8,9 @@
 /package-lock.json
 
 # production
-/dist
+dist/
+dists/
+config/project.js
 
 # misc
 .DS_Store
