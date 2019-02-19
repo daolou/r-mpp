@@ -9,7 +9,7 @@ if (!projectName) {
   }
 } else {
   const fs = require('fs');
-  fs.writeFileSync('./config/project.js', `exports.name = '${projectName}';\r\n`);
+  fs.writeFileSync('./config/project.js', `exports.name = '${projectName}';\n`);
 }
 
 const exec = require('child_process').execSync;

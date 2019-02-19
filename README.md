@@ -10,7 +10,7 @@
 
 ---
 ## 目录
-`tree  -C -L 5 -I 'node_modules|__*|dist|.idea'`
+`tree  -C -L 5 -I 'node_modules|__*|dist|dists|package-lock.json|.idea'`
 ```
 .
 ├── LICENSE
@@ -27,10 +27,15 @@
 │   ├── dev.js
 │   ├── project.js
 │   └── projectConfig.js
-├── package-lock.json
+├── deploy
+│   ├── production.js
+│   └── staging.js
+├── nginx.conf
 ├── package.json
+├── plugins
 └── src
     ├── components
+    │   ├── AsyncComponent.js
     │   └── ErrorBoundary.js
     ├── project
     │   ├── app1
@@ -38,11 +43,11 @@
     │   │   ├── app.less
     │   │   ├── assets
     │   │   │   └── share-hi.png
+    │   │   ├── components
     │   │   ├── document.html
     │   │   └── pages
     │   │       ├── Index.js
-    │   │       ├── Questions.js
-    │   │       └── components
+    │   │       └── Questions.js
     │   ├── app2
     │   │   ├── app.js
     │   │   ├── app.less
@@ -55,13 +60,15 @@
     ├── services
     │   └── androidBackService.js
     ├── style
-    │   └── base-mediaquery.less
+    │   ├── base-mediaquery.less
+    │   └── base.less
     └── utils
         ├── NDB.js
         ├── index.js
         └── rem.js
 ```
 ==ps: 编辑器请安装eslint和prettier插件==
+##　以工程`app1`为例:
 ## 本地开发
 1. `git clone git@github.com:Mr-jiangzhiguo/r-mpp.git`
 2. `cd r-mpp`
@@ -74,3 +81,9 @@
 
 ## 依赖分析
 `npm run pre-analyz app1`
+
+## 本地nginx服务
+1. 复制`nginx.conf`到自己的nginx配置目录
+2. 将root修改为自己本机的项目目录
+3. `sudo nginx -s reload`
+4. `http://localhost:8091/activity4/app1/#/index.html`
