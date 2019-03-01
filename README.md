@@ -15,37 +15,37 @@
 .
 ├── LICENSE
 ├── README.md
-├── build
+├── build (webpack 配置)
 │   ├── webpack.analyzer.conf.js
 │   ├── webpack.base.conf.js
 │   ├── webpack.dev.conf.js
 │   ├── webpack.prod.conf.js
 │   └── webpack.rules.conf.js
-├── config
+├── config (工程配置)
 │   ├── analyzer.js
 │   ├── build.js
 │   ├── dev.js
 │   ├── project.js
 │   └── projectConfig.js
-├── deploy
+├── deploy (部署脚本)
 │   ├── production.js
 │   └── staging.js
 ├── nginx.conf
 ├── package.json
 ├── plugins
 └── src
-    ├── components
+    ├── components (所有工程公用组件)
     │   ├── AsyncComponent.js
     │   └── ErrorBoundary.js
     ├── project
-    │   ├── app1
-    │   │   ├── app.js
-    │   │   ├── app.less
-    │   │   ├── assets
+    │   ├── app1 (工程app1)
+    │   │   ├── app.js (入口文件)
+    │   │   ├── app.less (app1的全局样式)
+    │   │   ├── assets (静态资源)
     │   │   │   └── share-hi.png
-    │   │   ├── components
-    │   │   ├── document.html
-    │   │   └── pages
+    │   │   ├── components (app1的组件)
+    │   │   ├── document.html (html模板)
+    │   │   └── pages (页面)
     │   │       ├── Index.js
     │   │       └── Questions.js
     │   ├── app2
@@ -55,17 +55,14 @@
     │   │   ├── document.html
     │   │   └── pages
     │   └── document.html
-    ├── public
+    ├── public (所有工程公用静态文件)
     │   └── favicon.ico
-    ├── services
-    │   └── androidBackService.js
-    ├── style
-    │   ├── base-mediaquery.less
-    │   └── base.less
-    └── utils
-        ├── NDB.js
-        ├── index.js
-        └── rem.js
+    ├── services (所有工程公用服务文件)
+    │   └── androidBackService.js (安卓物理键返回)
+    └── utils (所有工程工具封装)
+        ├── NDB.js (我司jsbridge封装)
+        ├── index.js (个人常用工具函数)
+        └── rem.js (多屏幕适配)
 ```
 ==ps: 编辑器请安装eslint和prettier插件==
 ##　以工程`app1`为例:

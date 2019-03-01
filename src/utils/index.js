@@ -1,3 +1,36 @@
+// 映射数据类型
+const map2DataType = {
+  '[object String]': 'String',
+  '[object Number]': 'Number',
+  '[object Undefined]': 'Undefined',
+  '[object Boolean]': 'Boolean',
+  '[object Array]': 'Array',
+  '[object Function]': 'Function',
+  '[object Object]': 'Object',
+  '[object Symbol]': 'Symbol',
+  '[object Set]': 'Set',
+  '[object Map]': 'Map',
+  '[object WeakSet]': 'WeakSet',
+  '[object WeakMap]': 'WeakMap',
+  '[object Null]': 'Null',
+  '[object Promise]': 'Promise',
+  '[object NodeList]': 'NodeList',
+  '[object Date]': 'Date',
+};
+/**
+ * @desc 判断数据的具体类型
+ * @param {any} o - 要判断的数据
+ */
+export const dataType = o => {
+  let r = Object.prototype.toString.call(o);
+  if (map2DataType[r]) {
+    return map2DataType[r];
+  } else {
+    // return r.replace('[object ', '').replace(']', '')
+    return r.replace(/^\[object\s(.*)\]$/, '$1');
+  }
+  // return Object.prototype.toString.call(o).replace('[object ', '').replace(']', '')
+};
 /**
  * @description 获取某个区间[min=0, max]的随机数
  * @param {number} max - 区间最大值
@@ -10,7 +43,26 @@ export const generateRandom = (max, min = 0, int = true) => {
   const res = Math.random() * (max - min + 1) + min;
   return int ? Math.floor(res) : res;
 };
-
+/**
+ * @description 在数字后面加上st/nd/rd/th
+ * @param {number} i - 数字
+ * @param {bool} lower - 是否小写,默认:是
+ */
+export const ordinalSuffixOf = (i, lower = true) => {
+  let j = i % 10,
+    k = i % 100,
+    res = 'th';
+  if (j == 1 && k != 11) {
+    res = 'st';
+  }
+  if (j == 2 && k != 12) {
+    res = 'nd';
+  }
+  if (j == 3 && k != 13) {
+    res = 'rd';
+  }
+  return i + (lower ? res : res.toUpperCase());
+};
 /**
  * @description 随机打乱数组
  * @param {array} arr - 要打乱的原数组
