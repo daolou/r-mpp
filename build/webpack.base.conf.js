@@ -11,7 +11,8 @@ const isDev = process.env.NODE_ENV == 'development';
 const PurgecssPlugin = require('purgecss-webpack-plugin');
 // 分离css
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+// px转rem
+// const px2rem = require('postcss-plugin-px2rem');
 // html模板
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 //静态资源输出
@@ -38,6 +39,7 @@ module.exports = {
   module: {
     rules: [...rules],
   },
+  // postcss: [px2rem({})],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '../src'),
@@ -109,15 +111,9 @@ module.exports = {
       // favicon: './favicon.ico',
       // title: title,
       inject: true,
-      hash: isDev, //开启hash  ?[hash]
+      hash: !isDev, //开启hash  ?[hash]
       chunks: ['app', 'vendor', 'commons', 'manifest'],
-      minify: isDev
-        ? false
-        : {
-            removeComments: true, //移除HTML中的注释
-            collapseWhitespace: true, //折叠空白区域 也就是压缩代码
-            removeAttributeQuotes: true, //去除属性引用
-          },
+      minify: !isDev,
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
   ],

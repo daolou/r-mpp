@@ -56,6 +56,9 @@ const rules = [
             require('autoprefixer')({
               browsers: ['last 10 versions'],
             }),
+            require('postcss-plugin-px2rem')({
+              exclude: /node_modules/,
+            }),
           ],
         },
       },

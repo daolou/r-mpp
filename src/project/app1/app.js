@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import '../../style/base-mediaquery.less';
 import './app.less';
 import {
   // BrowserRouter as Router,
