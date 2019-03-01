@@ -1,7 +1,21 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
+import NDB from '../../../utils/NDB';
+import androidBackService from '../../../services/androidBackService';
 
+@androidBackService
 export default class Questions extends PureComponent {
+  onAndroidBackClick() {
+    console.log(this);
+    console.log('back clicked');
+    console.log('webview: will close');
+    NDB.run('closeWebView');
+  }
+  componentDidMount() {
+    NDB.report('event', 'start', {
+      event_category: 'index',
+    });
+  }
   render() {
     console.log(this.props);
     return (

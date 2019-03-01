@@ -1,28 +1,8 @@
-const extractTextPlugin = require('extract-text-webpack-plugin');
+// const extractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const path = require('path');
 const isDev = process.env.NODE_ENV == 'development';
 const rules = [
-  // {
-  // 	test: /\.(css|scss|sass)$/,
-  // 	// 不分离的写法
-  // 	// use: ["style-loader", "css-loader",sass-loader"]
-  // 	// 使用postcss不分离的写法
-  // 	// use: ["style-loader", "css-loader", "sass-loader","postcss-loader"]
-  // 	// 此处为分离css的写法
-  // 	/*use: extractTextPlugin.extract({
-  // 		fallback: "style-loader",
-  // 		use: ["css-loader", "sass-loader"],
-  // 		// css中的基础路径
-  // 		publicPath: "../"
-  // 	})*/
-  // 	// 区别开发环境和生成环境
-  // 	use: isDev ? ["style-loader", "css-loader", "sass-loader", "postcss-loader"] : extractTextPlugin.extract({
-  // 		fallback: "style-loader",
-  // 		use: ["css-loader", "sass-loader", "postcss-loader"],
-  // 		// css中的基础路径
-  // 		publicPath: "../"
-
-  // 	})
-  // },
   {
     test: /\.m?js$/,
     exclude: /(node_modules|bower_components)/,
@@ -60,97 +40,27 @@ const rules = [
     use: ['html-withimg-loader'],
   },
   {
-    test: /\.css$/,
-    include: /(src|node_modules)/,
-    use: isDev
-      ? [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: [
-                require('autoprefixer')({
-                  browsers: ['last 10 versions'],
-                }),
-              ],
-            },
-          },
-        ]
-      : extractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            'css-loader',
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: [
-                  require('autoprefixer')({
-                    browsers: ['last 10 versions'],
-                  }),
-                ],
-              },
-            },
+    test: /\.(le|c)ss$/,
+    use: [
+      isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 2,
+        },
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          plugins: [
+            require('autoprefixer')({
+              browsers: ['last 10 versions'],
+            }),
           ],
-        }),
+        },
+      },
+      'less-loader',
+    ],
   },
-  {
-    test: /\.less$/,
-    // 三个loader的顺序不能变
-    // 不分离的写法
-    // use: ["style-loader", "css-loader", "less-loader"]
-    // 区别开发环境和生成环境
-    use: isDev
-      ? [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              camelCase: true,
-              localIdentName: '[name]-[local]-[hash:base64:6]',
-            },
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: [
-                require('autoprefixer')({
-                  browsers: ['last 10 versions'],
-                }),
-              ],
-            },
-          },
-          'less-loader',
-        ]
-      : extractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                camelCase: true,
-                localIdentName: '[name]-[local]-[hash:base64:6]',
-              },
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: [
-                  require('autoprefixer')({
-                    browsers: ['last 10 versions'],
-                  }),
-                ],
-              },
-            },
-            'less-loader',
-          ],
-        }),
-  },
-  // {
-  // 	test: require.resolve('zepto'),
-  // 	loader: 'exports-loader?window.Zepto!script-loader'
-  // }
 ];
 module.exports = rules;

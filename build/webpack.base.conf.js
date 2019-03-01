@@ -8,11 +8,14 @@ const projectConfig = require('../config/projectConfig');
 const isDev = process.env.NODE_ENV == 'development';
 
 //消除冗余的css
-const purifyCssWebpack = require('purifycss-webpack');
+const PurgecssPlugin = require('purgecss-webpack-plugin');
+// 分离css
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 // html模板
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 //静态资源输出
-const copyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const rules = require('./webpack.rules.conf.js');
 
 const getTemplate = function() {
@@ -46,21 +49,28 @@ module.exports = {
   },
   // 提取公共代码
   optimization: {
+    runtimeChunk: { name: 'manifest' },
     splitChunks: {
       cacheGroups: {
         vendor: {
           // 抽离第三方插件
-          test: /node_modules/, // 指定是node_modules下的第三方包
-          chunks: 'initial',
+          /*eslint no-useless-escape: "off"*/
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|react-redux|redux|redux-saga|umi|dva|dva-core|dva-loading|(\@babel)|core-js)[\\/]/, // 指定是node_modules下的第三方包
+          chunks: 'all',
           name: 'vendor', // 打包后的文件名，任意命名
           // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
           priority: 10,
         },
-        utils: {
+        // icons: {
+        //   name: 'icons',
+        //   chunks: 'all',
+        //   test: /[\\/]node_modules[\\/](@ant-design)[\\/]/,
+        // },
+        commons: {
           // 抽离自己写的公共代码，common这个名字可以随意起
-          chunks: 'initial',
-          name: 'common', // 任意命名
-          minSize: 0, // 只要超出0字节就生成一个新包
+          chunks: 'async',
+          name: 'commons', // 任意命名
+          minSize: 1, // 只要超出0字节就生成一个新包
           minChunks: 2,
         },
       },
@@ -70,7 +80,7 @@ module.exports = {
     // 全局暴露统一入口
     new webpack.ProvidePlugin({}),
     //静态资源输出
-    new copyWebpackPlugin([
+    new CopyWebpackPlugin([
       {
         from: path.resolve(projectConfig.localPath, './assets'),
         to: './assets',
@@ -83,17 +93,24 @@ module.exports = {
       },
     ]),
     // 消除冗余的css代码
-    new purifyCssWebpack({
-      paths: glob.sync(path.join(__dirname, '../src/*.html')),
+    new PurgecssPlugin({
+      paths: glob.sync(path.join(__dirname, '../src/**/*'), { nodir: true }),
     }),
-    new htmlWebpackPlugin({
+    // 分离css
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: isDev ? 'css/[name].css' : 'css/[name].[hash].css',
+      chunkFilename: isDev ? 'css/[id].css' : 'css/[id].[hash].css',
+    }),
+    new HtmlWebpackPlugin({
       template: getTemplate(),
       filename: `index.html`,
       // favicon: './favicon.ico',
       // title: title,
       inject: true,
-      hash: true, //开启hash  ?[hash]
-      // chunks: chunks,
+      hash: isDev, //开启hash  ?[hash]
+      chunks: ['app', 'vendor', 'commons', 'manifest'],
       minify: isDev
         ? false
         : {

@@ -24,8 +24,8 @@ const webpackConfigDev = {
     //服务器代理配置项
     proxy: {
       '/test/*': {
-        target: 'https://www.baidu.com',
-        secure: true,
+        target: '',
+        // secure: true,
         changeOrigin: true,
       },
     },
