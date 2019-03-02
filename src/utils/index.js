@@ -109,10 +109,12 @@ export const viewHoc = per => {
 /**
  * @description 将css转为驼峰对象
  * @param {string} str - css字符串
+ * @param {object} opt - px2rem,
  * @returns obj - 返回驼峰对象
  */
-export const css2obj = str => {
+export const css2obj = (str, opt = {}) => {
   const obj = {};
+  opt = Object.assign({ rem: false, unit: 100, fixed: 2 }, opt);
   // 去除;后面空格/回车/制表符
   str = str.replace(/;(\s|\r|\t)*/g, ';');
   // ;分割css属性
@@ -125,8 +127,21 @@ export const css2obj = str => {
     const arr2 = item.split(':');
     // 将属性转为驼峰
     const key = arr2[0].replace(/-(\w)/g, (k, r) => r.toUpperCase());
+    let value = arr2[1];
+    if (opt.rem) {
+      const reg = /\b(\d+(\.\d+)?)PX\b/gi;
+      // 先test下有没有符合的如果有再进行替换
+      if (reg.test(value)) {
+        value.replace(reg, (k, r) => {
+          let val = r / opt.unit;
+          // 精确到几位
+          val = parseFloat(val.toFixed(opt.fixed));
+          return val === 0 ? val : val + 'rem';
+        });
+      }
+    }
     // 合并到对象
-    Object.assign(obj, { [key]: arr2[1] });
+    Object.assign(obj, { [key]: value });
   });
   return obj;
 };
