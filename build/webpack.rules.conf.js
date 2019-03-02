@@ -1,17 +1,26 @@
 // const extractTextPlugin = require('extract-text-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-// const path = require('path');
+const path = require('path');
 const isDev = process.env.NODE_ENV == 'development';
 const rules = [
   {
     test: /\.m?js$/,
     exclude: /(node_modules|bower_components)/,
-    use: {
-      loader: 'babel-loader',
-      options: {
-        presets: ['@babel/preset-env'],
+    use: [
+      {
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env'],
+        },
       },
-    },
+      {
+        loader: path.join(__dirname, './myloaders/px2rem-loader'),
+        options: {
+          remUnit: 100,
+          remFixed: 2,
+        },
+      },
+    ],
   },
   {
     test: /\.(png|jpg|gif)$/,

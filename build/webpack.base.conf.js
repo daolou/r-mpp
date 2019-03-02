@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
 const fs = require('fs');
+const chalk = require('chalk');
 
 // require("./env-config");
 const projectConfig = require('../config/projectConfig');
@@ -17,6 +18,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 //静态资源输出
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// 打包进度条
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+
 const rules = require('./webpack.rules.conf.js');
 
 const getTemplate = function() {
@@ -81,6 +85,16 @@ module.exports = {
   plugins: [
     // 全局暴露统一入口
     new webpack.ProvidePlugin({}),
+    // 打包进度条
+    new ProgressBarPlugin({
+      format:
+        '   ' +
+        chalk.blue.bold('build') +
+        ' [:bar] ' +
+        chalk.green.bold(':percent') +
+        ' (:elapsed seconds)',
+      clear: false,
+    }),
     //静态资源输出
     new CopyWebpackPlugin([
       {

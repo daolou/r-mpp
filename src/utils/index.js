@@ -105,3 +105,28 @@ export const viewHoc = per => {
     return Hoc;
   };
 };
+
+/**
+ * @description 将css转为驼峰对象
+ * @param {string} str - css字符串
+ * @returns obj - 返回驼峰对象
+ */
+export const css2obj = str => {
+  const obj = {};
+  // 去除;后面空格/回车/制表符
+  str = str.replace(/;(\s|\r|\t)*/g, ';');
+  // ;分割css属性
+  const arr1 = str.split(';');
+  // 去除最后一位空值
+  arr1.pop();
+  // 遍历得到的数组
+  arr1.forEach(item => {
+    // :分割得到['属性:属性值']
+    const arr2 = item.split(':');
+    // 将属性转为驼峰
+    const key = arr2[0].replace(/-(\w)/g, (k, r) => r.toUpperCase());
+    // 合并到对象
+    Object.assign(obj, { [key]: arr2[1] });
+  });
+  return obj;
+};

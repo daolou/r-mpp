@@ -18,7 +18,7 @@ export default class Index extends PureComponent {
   }
   render() {
     return (
-      <div>
+      <div style={{ margin: '30px auto 0' }}>
         当前: 活动首页
         <br />
         <Link to="/questions.html">去活动问题页</Link>
