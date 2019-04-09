@@ -9,11 +9,17 @@ const config = {
     localPath: './src/project/app1/',
     remotePath: 'activity4/app1',
     bucket: 'xxx.xxx.xxx',
+    data: {
+      title: 'app1',
+    },
   },
   app2: {
     localPath: './src/project/app2/',
     remotePath: 'activity4/app2',
     bucket: 'xxx.xxx.xxx',
+    data: {
+      title: 'app2',
+    },
   },
 };
 

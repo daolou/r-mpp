@@ -24,9 +24,9 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const rules = require('./webpack.rules.conf.js');
 
 const getTemplate = function() {
-  let pathTemp = `${projectConfig.localPath}/document.html`;
+  let pathTemp = `${projectConfig.localPath}/document.njk`;
   if (!fs.existsSync(pathTemp)) {
-    pathTemp = path.resolve(projectConfig.localPath, '../', './document.html');
+    pathTemp = path.resolve(projectConfig.localPath, '../', './document.njk');
   }
   return pathTemp;
 };
@@ -121,6 +121,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: getTemplate(),
+      templateParameters: { data: projectConfig.data },
       filename: `index.html`,
       // favicon: './favicon.ico',
       // title: title,

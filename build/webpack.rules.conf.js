@@ -44,9 +44,17 @@ const rules = [
     },
   },
   {
-    test: /\.html$/,
+    test: /\.(njk|nunjucks|tpl|tmpl|html)$/,
     // html中的img标签
-    use: ['html-withimg-loader'],
+    use: [
+      {
+        loader: 'nunjucks-isomorphic-loader',
+        query: {
+          root: [path.resolve(__dirname, '../src/project')],
+        },
+      },
+      'html-withimg-loader',
+    ],
   },
   {
     test: /\.(le|c)ss$/,

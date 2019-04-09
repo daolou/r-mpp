@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link href="data:;base64,=" rel="icon" />
 
-  <title>app2</title>
+  <title>{{ data.title or '默认title'}}</title>
 
   <!-- 多屏幕适配方案 -->
   <script>
@@ -71,8 +72,8 @@
             console.error(e)
           }
         })();
-      }, 10);
-    }
+      }, 50);
+    };
   </script>
 </head>
 
