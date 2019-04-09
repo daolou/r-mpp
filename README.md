@@ -44,7 +44,7 @@
     │   │   ├── assets (静态资源)
     │   │   │   └── share-hi.png
     │   │   ├── components (app1的组件)
-    │   │   ├── document.html (html模板)
+    │   │   ├── document.njk (html模板)
     │   │   └── pages (页面)
     │   │       ├── Index.js
     │   │       └── Questions.js
@@ -52,9 +52,9 @@
     │   │   ├── app.js
     │   │   ├── app.less
     │   │   ├── assets
-    │   │   ├── document.html
+    │   │   ├── document.njk
     │   │   └── pages
-    │   └── document.html
+    │   └── document.njk (默认模板)
     ├── public (所有工程公用静态文件)
     │   └── favicon.ico
     ├── services (所有工程公用服务文件)
