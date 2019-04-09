@@ -49,28 +49,26 @@
   <script>
     window.onload = function () {
       setTimeout(function () {
-        ; (function () {
-          try {
-            var html = document.querySelector('html');
-            /* 1rem的实际展示px值 */
-            var realFz = parseInt(window.getComputedStyle(html).fontSize.replace('px', ''), 10);
+        try {
+          var html = document.querySelector('html');
+          /* 1rem的实际展示px值 */
+          var realFz = parseInt(window.getComputedStyle(html).fontSize.replace('px', ''), 10);
 
-            /* 1rem的理论值 */
-            var expectFz = parseInt(window.rem, 10);
-            console.log(realFz, expectFz)
+          /* 1rem的理论值 */
+          var expectFz = parseInt(window.rem, 10);
+          console.log(realFz, expectFz)
 
-            /* 不相等 则被缩放了 */
-            if (realFz != expectFz && document.documentElement.clientWidth < 750) {
+          /* 不相等 则被缩放了 */
+          if (realFz != expectFz && document.documentElement.clientWidth < 750) {
 
-              /* 将期望值除以放大倍率 */
-              var realRem = expectFz / (realFz / expectFz);
-              console.log(realRem);
-              html.style.fontSize = realRem + 'px';
-            }
-          } catch (e) {
-            console.error(e)
+            /* 将期望值除以放大倍率 */
+            var realRem = expectFz / (realFz / expectFz);
+            console.log(realRem);
+            html.style.fontSize = realRem + 'px';
           }
-        })();
+        } catch (e) {
+          console.error(e)
+        }
       }, 10);
     }
   </script>

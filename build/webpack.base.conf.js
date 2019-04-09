@@ -37,7 +37,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: isDev ? './js/[name].js' : './js/[name].[hash].js',
+    filename: isDev ? './js/[name].js' : './js/[name].[chunkhash:6].js',
     publicPath: isDev ? '/' : './',
   },
   module: {
@@ -116,8 +116,8 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: isDev ? 'css/[name].css' : 'css/[name].[hash].css',
-      chunkFilename: isDev ? 'css/[id].css' : 'css/[id].[hash].css',
+      filename: isDev ? 'css/[name].css' : 'css/[name].[contenthash:6].css',
+      chunkFilename: isDev ? 'css/[id].css' : 'css/[id].[contenthash:6].css',
     }),
     new HtmlWebpackPlugin({
       template: getTemplate(),
@@ -127,7 +127,13 @@ module.exports = {
       inject: true,
       hash: !isDev, //开启hash  ?[hash]
       chunks: ['app', 'vendor', 'commons', 'manifest'],
-      minify: !isDev,
+      minify: isDev
+        ? false
+        : {
+            removeComments: true, // 移除HTML中的注释
+            collapseWhitespace: true, // 删除空白符与换行符
+            minifyJS: true,
+          },
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
   ],

@@ -7,7 +7,7 @@ import androidBackService from '../../../services/androidBackService';
 @androidBackService
 export default class Index extends PureComponent {
   onAndroidBackClick() {
-    console.log(this);
+    // console.log(this);
     console.log('back clicked');
     console.log('webview: will close');
     NDB.run('closeWebView');

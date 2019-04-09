@@ -8,6 +8,7 @@ const dashboard = new Dashboard();
 
 const webpackConfigDev = {
   mode: 'development', // 通过 mode 声明开发环境
+  devtool: 'source-map', // 开启调试模式
   devServer: {
     contentBase: path.join(__dirname, '../src'),
     publicPath: '/', // 与上下文(output的publicPath)的保持一致
@@ -40,7 +41,6 @@ const webpackConfigDev = {
 
     new DashboardPlugin(dashboard.setData),
   ],
-  devtool: 'source-map', // 开启调试模式
   module: {
     rules: [],
   },
