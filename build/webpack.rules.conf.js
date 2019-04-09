@@ -45,14 +45,15 @@ const rules = [
   },
   {
     test: /\.(njk|nunjucks|tpl|tmpl|html)$/,
-    // html中的img标签
     use: [
+      // nunjucks 模板
       {
         loader: 'nunjucks-isomorphic-loader',
         query: {
           root: [path.resolve(__dirname, '../src/project')],
         },
       },
+      // html中的img标签
       'html-withimg-loader',
     ],
   },

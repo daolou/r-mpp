@@ -16,6 +16,7 @@ const map2DataType = {
   '[object Promise]': 'Promise',
   '[object NodeList]': 'NodeList',
   '[object Date]': 'Date',
+  '[object FormData]': 'FormData',
 };
 /**
  * @desc 判断数据的具体类型
