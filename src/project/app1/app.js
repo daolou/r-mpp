@@ -21,6 +21,10 @@ const Questions = AsyncComponent(() =>
   './pages/Questions')
 );
 
+const FastClick = require('fastclick');
+
+FastClick.attach(document.body);
+
 // @withRouter()
 class App extends Component {
   render() {
