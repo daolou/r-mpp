@@ -8,7 +8,7 @@ const dashboard = new Dashboard();
 
 const webpackConfigDev = {
   mode: 'development', // 通过 mode 声明开发环境
-  devtool: 'source-map', // 开启调试模式
+  devtool: 'cheap-module-eval-source-map', // 开启调试模式
   devServer: {
     contentBase: path.join(__dirname, '../src'),
     publicPath: '/', // 与上下文(output的publicPath)的保持一致
@@ -30,6 +30,10 @@ const webpackConfigDev = {
         changeOrigin: true,
       },
     },
+  },
+  optimization: {
+    //在开发环境中加，生产环境不加
+    usedExports: true,
   },
   plugins: [
     //热更新

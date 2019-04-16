@@ -10,7 +10,7 @@ const webpackConfigBase = require('./webpack.base.conf');
 
 const webpackConfigProd = {
   mode: 'production', // 通过 mode 声明生产环境
-  devtool: 'none',
+  devtool: 'cheap-module-source-map',
   plugins: [
     //删除dist目录
     new CleanWebpackPlugin(['dist'], {

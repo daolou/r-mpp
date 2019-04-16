@@ -6,7 +6,8 @@
         "targets": {
           "chrome": "30",
           "ie": "9"
-        }
+        },
+        // "useBuiltIns": "usage" //按需添加polyfill,把用到的代码都转成低版本浏览器兼容的
       }
     ],
     [

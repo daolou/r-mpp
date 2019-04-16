@@ -10,8 +10,16 @@ import {
 } from 'react-router-dom';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import AsyncComponent from '../../components/AsyncComponent';
-const Index = AsyncComponent(() => import('./pages/Index'));
-const Questions = AsyncComponent(() => import('./pages/Questions'));
+const Index = AsyncComponent(() =>
+  import(/* webpackChunkName: 'index' */
+  /* webpackPrefetch: true */
+  './pages/Index')
+);
+const Questions = AsyncComponent(() =>
+  import(/* webpackChunkName: 'questions' */
+  /* webpackPrefetch: true */
+  './pages/Questions')
+);
 
 // @withRouter()
 class App extends Component {

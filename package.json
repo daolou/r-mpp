@@ -3,6 +3,8 @@
   "version": "0.0.1",
   "description": "react webpack Multi - project package",
   "main": "index.js",
+  "//": "对 所有的css文件 不使用Tree shaking。如果填 false，就是都需要用到Tree shaking",
+  "sideEffects": ["*.css","*.less"],
   "scripts": {
     "pre-dev": "node config/dev.js",
     "pre-build": "node config/build.js",

@@ -97,7 +97,9 @@ export const viewHoc = per => {
 		} */
     let Hoc = props => {
       // console.log(props)
+      // eslint-disable-next-line react/prop-types
       let key = per ? props[per] : props.match.url;
+      // eslint-disable-next-line react/react-in-jsx-scope
       return <ChildComponent key={String(key)} {...props} />;
     };
     // displayName 静态属性,保留原组件的名称,利于debug
