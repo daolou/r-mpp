@@ -11,7 +11,7 @@ const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const webpackConfigProd = {
   mode: 'production', // 通过 mode 声明生产环境
-  devtool: 'cheap-module-source-map',
+  // devtool: 'cheap-module-source-map',
   plugins: [
     //删除dist目录
     new CleanWebpackPlugin(['dist'], {
