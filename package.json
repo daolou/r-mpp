@@ -4,7 +4,10 @@
   "description": "react webpack Multi - project package",
   "main": "index.js",
   "//": "对 所有的css文件 不使用Tree shaking。如果填 false，就是都需要用到Tree shaking",
-  "sideEffects": ["*.css","*.less"],
+  "sideEffects": [
+    "*.css",
+    "*.less"
+  ],
   "scripts": {
     "pre-dev": "node config/dev.js",
     "pre-build": "node config/build.js",
@@ -60,6 +63,7 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-plugin-px2rem": "^0.8.1",
+    "preload-webpack-plugin": "^3.0.0-beta.3",
     "prettier": "^1.16.1",
     "progress-bar-webpack-plugin": "^1.12.1",
     "prop-types": "^15.6.2",

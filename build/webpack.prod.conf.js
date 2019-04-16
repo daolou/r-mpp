@@ -7,6 +7,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 const webpackConfigBase = require('./webpack.base.conf');
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
 
 const webpackConfigProd = {
   mode: 'production', // 通过 mode 声明生产环境
@@ -23,6 +24,17 @@ const webpackConfigProd = {
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': '"production"',
+    }),
+    new PreloadWebpackPlugin({
+      rel: 'prefetch',
+      include: 'asyncChunks',
+      fileBlacklist: [/\.map/],
+      as(entry) {
+        if (/\.css$/.test(entry)) return 'style';
+        if (/\.woff$/.test(entry)) return 'font';
+        if (/\.png$/.test(entry)) return 'image';
+        return 'script';
+      },
     }),
     //压缩css
     new OptimizeCSSPlugin({

@@ -12,12 +12,12 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import AsyncComponent from '../../components/AsyncComponent';
 const Index = AsyncComponent(() =>
   import(/* webpackChunkName: 'index' */
-  /* webpackPrefetch: true */
+  // /* webpackPrefetch: true */
   './pages/Index')
 );
 const Questions = AsyncComponent(() =>
   import(/* webpackChunkName: 'questions' */
-  /* webpackPrefetch: true */
+  // /* webpackPrefetch: true */
   './pages/Questions')
 );
 

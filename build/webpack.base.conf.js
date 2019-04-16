@@ -117,7 +117,7 @@ module.exports = {
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: isDev ? 'css/[name].css' : 'css/[name].[contenthash:6].css',
-      chunkFilename: isDev ? 'css/[id].css' : 'css/[id].[contenthash:6].css',
+      // chunkFilename: isDev ? 'css/[id].css' : 'css/[id].[contenthash:6].css',
     }),
     new HtmlWebpackPlugin({
       template: getTemplate(),
