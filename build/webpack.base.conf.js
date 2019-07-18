@@ -5,7 +5,7 @@ const fs = require('fs');
 const chalk = require('chalk');
 
 // require("./env-config");
-const projectConfig = require('../config/projectConfig');
+const paths = require('./paths');
 const isDev = process.env.NODE_ENV == 'development';
 
 //消除冗余的css
@@ -24,21 +24,21 @@ const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const rules = require('./webpack.rules.conf.js');
 
 const getTemplate = function() {
-  let pathTemp = `${projectConfig.localPath}/document.njk`;
+  let pathTemp = paths.defaultTemp;
   if (!fs.existsSync(pathTemp)) {
-    pathTemp = path.resolve(projectConfig.localPath, '../', './document.njk');
+    pathTemp = paths.currentTemp;
   }
   return pathTemp;
 };
 
 module.exports = {
   entry: {
-    app: projectConfig.localPath + 'app.js',
+    app: paths.entry,
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: isDev ? './js/[name].js' : './js/[name].[chunkhash:6].js',
-    publicPath: isDev ? '/' : './',
+    filename: isDev ? 'js/[name].js' : 'js/[name].[chunkhash:6].js',
+    publicPath: paths.public,
   },
   module: {
     rules: [...rules],
@@ -46,7 +46,9 @@ module.exports = {
   // postcss: [px2rem({})],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, '../src'),
+      '~src': path.resolve(__dirname, '../src'),
+      '~config': path.resolve(__dirname, '../config'),
+      '~build': path.resolve(__dirname, '../build'),
     },
   },
   //将外部变量或者模块加载进来
@@ -61,8 +63,8 @@ module.exports = {
         vendor: {
           // 抽离第三方插件
           /*eslint no-useless-escape: "off"*/
-          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|react-redux|redux|redux-saga|umi|dva|dva-core|dva-loading|(\@babel)|core-js)[\\/]/, // 指定是node_modules下的第三方包
-          chunks: 'all',
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router|react-router-dom|fastclick|(\@babel)|core-js)[\\/]/, // 指定是node_modules下的第三方包
+          chunks: 'initial',
           name: 'vendor', // 打包后的文件名，任意命名
           // 设置优先级，防止和自定义的公共代码提取时被覆盖，不进行打包
           priority: 10,
@@ -74,9 +76,9 @@ module.exports = {
         // },
         commons: {
           // 抽离自己写的公共代码，common这个名字可以随意起
-          chunks: 'async',
+          chunks: 'initial',
           name: 'commons', // 任意命名
-          minSize: 1, // 只要超出0字节就生成一个新包
+          minSize: 0, // 只要超出0字节就生成一个新包
           minChunks: 2,
         },
       },
@@ -98,7 +100,7 @@ module.exports = {
     //静态资源输出
     new CopyWebpackPlugin([
       {
-        from: path.resolve(projectConfig.localPath, './assets'),
+        from: paths.assets,
         to: './assets',
         ignore: ['.*'],
       },
@@ -121,7 +123,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: getTemplate(),
-      templateParameters: { data: projectConfig.data },
+      templateParameters: { data: paths.data },
       filename: `index.html`,
       // favicon: './favicon.ico',
       // title: title,

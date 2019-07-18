@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './app.less';
 import {
-  // BrowserRouter as Router,
-  HashRouter as Router,
+  BrowserRouter as Router,
+  // HashRouter as Router,
   Route,
   Switch,
   Redirect,
 } from 'react-router-dom';
-import ErrorBoundary from '../../components/ErrorBoundary';
-import AsyncComponent from '../../components/AsyncComponent';
+import ErrorBoundary from '~src/components/ErrorBoundary';
+import AsyncComponent from '~src/components/AsyncComponent';
+import paths from '~build/paths';
 const Index = AsyncComponent(() =>
   import(/* webpackChunkName: 'index' */
   // /* webpackPrefetch: true */
@@ -32,9 +33,9 @@ class App extends Component {
       <ErrorBoundary>
         <Router>
           <Switch>
-            <Route exact path="/index.html" component={Index} />
-            <Route exact path="/questions.html" component={Questions} />
-            <Redirect to="/index.html" />
+            <Route exact path={`${paths.public}index`} component={Index} />
+            <Route exact path={`${paths.public}questions`} component={Questions} />
+            <Redirect to={`${paths.public}index`} />
           </Switch>
         </Router>
       </ErrorBoundary>

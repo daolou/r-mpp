@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import NDB from '../../../utils/NDB';
 import { css2obj } from '../../../utils/index';
 import androidBackService from '../../../services/androidBackService';
+import paths from '~build/paths';
 
 @androidBackService
 export default class Index extends PureComponent {
@@ -26,7 +27,7 @@ export default class Index extends PureComponent {
       <div style={{ margin: '30px auto 0' }}>
         当前: 活动首页
         <br />
-        <Link to="/questions.html">去活动问题页</Link>
+        <Link to={`${paths.public}questions`}>去活动问题页</Link>
       </div>
     );
   }

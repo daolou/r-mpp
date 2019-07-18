@@ -17,12 +17,12 @@ const execSync = require('child_process').execSync;
 const originDirectory = path.resolve(__dirname, '../dist/');
 const targetDirectory = path.resolve(__dirname, '../dists/', projectName);
 if (fs.existsSync(targetDirectory)) {
-  console.log(`rm -r ${targetDirectory}/*`);
-  execSync(`rm -r ${targetDirectory}/*`);
+  console.log(`rm -rf ${targetDirectory}/*`);
+  execSync(`rm -rf ${targetDirectory}/*`);
 } else {
   console.log(`mkdir -p ${targetDirectory}`);
   execSync(`mkdir -p ${targetDirectory}`);
 }
-execSync(`npm run build && cp -rf ${originDirectory}/ ${targetDirectory}`, {
+execSync(`npm run build && cp -rf ${originDirectory}/* ${targetDirectory}`, {
   stdio: 'inherit',
 });

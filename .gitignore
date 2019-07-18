@@ -10,7 +10,6 @@
 # production
 dist/
 dists/
-config/project.js
 
 # misc
 .DS_Store
