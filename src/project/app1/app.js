@@ -33,9 +33,9 @@ class App extends Component {
       <ErrorBoundary>
         <Router>
           <Switch>
-            <Route exact path={`${paths.public}index`} component={Index} />
+            <Route exact path={`${paths.public}`} component={Index} />
             <Route exact path={`${paths.public}questions`} component={Questions} />
-            <Redirect to={`${paths.public}index`} />
+            <Redirect to={`${paths.public}`} />
           </Switch>
         </Router>
       </ErrorBoundary>

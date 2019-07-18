@@ -23,7 +23,7 @@ export default class Questions extends PureComponent {
       <div>
         当前: 活动问题页
         <br />
-        <Link to={`${paths.public}index`}>去活动首页</Link>
+        <Link to={`${paths.public}`}>去活动首页</Link>
       </div>
     );
   }
