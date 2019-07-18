@@ -93,4 +93,4 @@
 1. 复制`nginx.conf`到自己的nginx配置目录
 2. 将root修改为自己本机的项目目录
 3. `sudo nginx -s reload`
-4. `http://localhost:8091/activity4/app1/#/index.html`
+4. `http://localhost:8091/activity4/app1`
