@@ -4,6 +4,7 @@ import NDB from '../../../utils/NDB';
 import { css2obj } from '../../../utils/index';
 import androidBackService from '../../../services/androidBackService';
 import paths from '~build/paths';
+import styles from './index.less';
 
 @androidBackService
 export default class Index extends PureComponent {
@@ -24,7 +25,7 @@ export default class Index extends PureComponent {
   }
   render() {
     return (
-      <div style={{ margin: '30px auto 0' }}>
+      <div className={styles['index']} style={{ margin: '30px auto 0' }}>
         当前: 活动首页
         <br />
         <Link to={`${paths.public}questions`}>去活动问题页</Link>

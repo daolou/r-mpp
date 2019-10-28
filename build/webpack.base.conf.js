@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const glob = require('glob');
+// const glob = require('glob');
 const fs = require('fs');
 const chalk = require('chalk');
 
@@ -9,7 +9,7 @@ const paths = require('./paths');
 const isDev = process.env.NODE_ENV == 'development';
 
 //消除冗余的css
-const PurgecssPlugin = require('purgecss-webpack-plugin');
+// const PurgecssPlugin = require('purgecss-webpack-plugin');
 // 分离css
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 // px转rem
@@ -81,6 +81,12 @@ module.exports = {
           minSize: 0, // 只要超出0字节就生成一个新包
           minChunks: 2,
         },
+        styles: {
+          name: 'styles',
+          test: /\.css$/,
+          chunks: 'all',
+          enforce: true,
+        },
       },
     },
   },
@@ -110,10 +116,6 @@ module.exports = {
         ignore: ['.*'],
       },
     ]),
-    // 消除冗余的css代码
-    new PurgecssPlugin({
-      paths: glob.sync(path.join(__dirname, '../src/**/*'), { nodir: true }),
-    }),
     // 分离css
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
@@ -121,6 +123,10 @@ module.exports = {
       filename: isDev ? 'css/[id].[name].css' : 'css/[id].[name].[contenthash:6].css',
       // chunkFilename: isDev ? 'css/[id].css' : 'css/[id].[contenthash:6].css',
     }),
+    // 消除冗余的css代码
+    // new PurgecssPlugin({
+    //   paths: glob.sync(path.join(__dirname, '../src/**/*'), { nodir: true }),
+    // }),
     new HtmlWebpackPlugin({
       template: getTemplate(),
       templateParameters: { data: paths.data },

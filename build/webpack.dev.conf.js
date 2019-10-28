@@ -2,9 +2,9 @@ const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge');
 const webpackConfigBase = require('./webpack.base.conf');
-const Dashboard = require('webpack-dashboard');
-const DashboardPlugin = require('webpack-dashboard/plugin');
-const dashboard = new Dashboard();
+// const Dashboard = require('webpack-dashboard');
+// const DashboardPlugin = require('webpack-dashboard/plugin');
+// const dashboard = new Dashboard();
 
 const webpackConfigDev = {
   mode: 'development', // 通过 mode 声明开发环境
@@ -43,7 +43,7 @@ const webpackConfigDev = {
       'process.env.NODE_ENV': '"development"',
     }),
 
-    new DashboardPlugin(dashboard.setData),
+    // new DashboardPlugin(dashboard.setData),
   ],
   module: {
     rules: [],

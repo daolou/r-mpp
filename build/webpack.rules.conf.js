@@ -57,12 +57,18 @@ const rules = [
   {
     test: /\.(le|c)ss$/,
     use: [
-      isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
+      {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+          hmr: isDev,
+        },
+      },
       {
         loader: 'css-loader',
         options: {
-          importLoaders: 2, //如果sass文件里还引入了另外一个sass文件，另一个文件还会从postcss-loader向上解析。如果不加，就直接从css-loader开始解析。
-          modules: true, //开启css的模块打包。css样式不会和其他模块发生耦合和冲突
+          importLoaders: 2,
+          modules: true,
+          localIdentName: '[local]_[hash:base64:5]',
         },
       },
       {
@@ -70,7 +76,7 @@ const rules = [
         options: {
           plugins: [
             require('autoprefixer')({
-              browsers: ['last 10 versions'],
+              overrideBrowserslist: ['last 10 versions'],
             }),
             require('postcss-plugin-px2rem')({
               exclude: /node_modules/,
