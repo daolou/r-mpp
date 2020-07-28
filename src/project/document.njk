@@ -12,70 +12,143 @@
   <style>
     body{touch-action: manipulation;}
   </style>
-  <!-- 多屏幕适配方案 -->
+  {# <!-- 多屏幕适配方案 --> #}
   <script>
-    var dpr, rem, scale;
-    var docEl = document.documentElement;
-    var fontEl = document.createElement('style');
-    var metaEl = document.querySelector('meta[name="viewport"]');
+    /**
+      * @description （多屏幕+手机系统字体+webview+750设计稿）适配方案
+      * 1rem = 100px
+      */
+    (function (win, doc) {
+      var docEl = doc.documentElement;
+      var _dpr = win.devicePixelRatio || 1;
+      var _scale = 1 / _dpr;
 
-    dpr = window.devicePixelRatio || 1;
-    rem = docEl.clientWidth * dpr / 7.5;
-    scale = 1 / dpr;
+      var setStyleFontSize = function (num) {
+        var max = 100
+        docEl.style.fontSize = (num > max ? max : num) + 'px';
+        // docEl.style.fontSize = num + 'px';
+      };
+      // 计算并设置根元素fontSize
+      var calcRem = function () {
+        const clientWidth = Math.max(Math.min(docEl.clientWidth, 750), 320)
+        var _rem = (docEl.clientWidth) / 7.5;
 
+        // /* 设置data-dpr属性，留作的css hack之用 */
+        // docEl.setAttribute('data-dpr', _dpr);
 
-    /* 设置viewport，进行缩放，达到高清效果 */
-    metaEl.setAttribute('content', 'width=' + dpr * docEl.clientWidth + ',initial-scale=' + scale + ',maximum-scale=' + scale + ', minimum-scale=' + scale + ',user-scalable=no');
+        /* 动态写入样式 */
+        setStyleFontSize(_rem);
 
-    /* 设置data-dpr属性，留作的css hack之用 */
-    docEl.setAttribute('data-dpr', dpr);
+        /* 给js调用的，某一dpr下rem和px之间的转换函数 */
+        win.rem2px = function (v) {
+          v = parseFloat(v);
+          return v * _rem;
+        };
+        win.px2rem = function (v) {
+          v = parseFloat(v);
+          return v / _rem;
+        };
 
-    /* 动态写入样式 */
-    docEl.firstElementChild.appendChild(fontEl);
-    fontEl.innerHTML = 'html{font-size:' + rem + 'px!important;}';
+        win.dpr = _dpr;
+        win.rem = _rem;
+      };
 
-    /* 给js调用的，某一dpr下rem和px之间的转换函数 */
-    window.rem2px = function (v) {
-      v = parseFloat(v);
-      return v * rem;
-    };
-    window.px2rem = function (v) {
-      v = parseFloat(v);
-      return v / rem;
-    };
+      /* 解决部分手机webview一开始获取的clientWidth为0，导致font-size为0即1rem=0 的bug */
+      var canSetFontSize = function () {
+        if (docEl.clientWidth === 0) {
+          setTimeout(function () {
+            canSetFontSize();
+          }, 50);
+          return;
+        }
+        calcRem();
+      };
+      canSetFontSize();
 
-    window.dpr = dpr;
-    window.rem = rem;
-  </script>
+      /* 解决手机更改系统字体大小的适配问题 */
+      var calcScale = function () {
+        setTimeout(function () {
+          (function () {
+            try {
+              var realFz = parseInt(win.getComputedStyle(docEl).fontSize.replace('px', ''), 10);
 
-  <!-- 解决手机系统字体更改后显示不正常的问题 -->
-  <script>
-    ;(window.onload = function () {
-      setTimeout(function () {
-        ; (function () {
-          try {
-            var html = document.querySelector('html');
-            /* 1rem的实际展示px值 */
-            var realFz = parseInt(window.getComputedStyle(html).fontSize.replace('px', ''), 10);
+              var expectFz = parseInt(win.rem, 10);
+              console.log('realFz:',realFz, 'expectFz:',expectFz);
 
-            /* 1rem的理论值 */
-            var expectFz = parseInt(window.rem, 10);
-            console.log(realFz, expectFz)
-
-            /* 不相等 则被缩放了 */
-            if (realFz != expectFz && document.documentElement.clientWidth < 750) {
-
-              /* 将期望值除以放大倍率 */
-              var realRem = expectFz / (realFz / expectFz);
-              console.log(realRem);
-              html.style.fontSize = realRem + 'px';
+              if (realFz != expectFz && docEl.clientWidth < 750) {
+                var realRem = expectFz / (realFz / expectFz);
+                setStyleFontSize(realRem);
+              }
+            } catch (e) {
+              console.error(e);
             }
-          } catch (e) {
-            console.error(e)
+          })();
+        }, 50);
+      };
+      /* ga 打点 */
+      var ga = function(id){
+        win.dataLayer = win.dataLayer || [];
+        function gtag(){
+          dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', id);
+        win.gtag = gtag;
+        setTimeout(function(){
+          var gtagScript = doc.createElement('script');
+          gtagScript.src="https://www.googletagmanager.com/gtag/js?id="+id;
+          gtagScript.async = true;
+          doc.head.appendChild(gtagScript);
+        },100)
+      }
+      var ga_id = "{{data.ga_id}}"
+      if(ga_id){
+        ga(ga_id)
+      }
+      {# win.onload = function () {
+        console.log('onload');
+        calcScale();
+      }; #}
+      doc.addEventListener('DOMContentLoaded',function(event){
+        console.log("DOM fully loaded and parsed");
+        calcScale();
+      })
+
+      var debounce = function (fn, delay, immediate) {
+        if (!delay) {
+          delay = 300;
+        }
+        if (!immediate) {
+          immediate = false;
+        }
+        var timer = null;
+        return function () {
+          var that = this;
+          var argumentsCopy = arguments;
+          if (immediate && !timer) {
+            console.log(immediate, timer);
+            fn.apply(that, argumentsCopy);
           }
-        })();
-      }, 50);
+          if (timer) {
+            clearTimeout(timer);
+          }
+          timer = setTimeout(function () {
+            if (!immediate) {
+              fn.apply(that, argumentsCopy);
+            }
+            timer = null;
+          }, delay);
+        };
+      };
+
+      win.onresize = debounce(function () {
+      console.log('onresize');
+      var _rem = docEl.clientWidth / 7.5;
+      setStyleFontSize(_rem);
     });
+
+    })(window, document);
+
   </script>
 </head>
 

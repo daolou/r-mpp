@@ -1,4 +1,7 @@
 const projectName = require('./project');
+
+// const CDN = 'xxxxx';
+
 /**
  * localPath: 本地工程根目录
  * remotePath: 远程cdn目录
@@ -11,6 +14,7 @@ const config = {
     bucket: 'xxx.xxx.xxx',
     data: {
       title: 'app1',
+      ga_id: 'xxxxx',
     },
   },
   app2: {
@@ -19,6 +23,7 @@ const config = {
     bucket: 'xxx.xxx.xxx',
     data: {
       title: 'app2',
+      ga_id: 'xxxxx',
     },
   },
 };

@@ -5,9 +5,11 @@
       {
         "targets": {
           "chrome": "30",
-          "ie": "9"
+          "ie": "8",
+          "android": "4"
         },
-        // "useBuiltIns": "usage" //按需添加polyfill,把用到的代码都转成低版本浏览器兼容的
+        "useBuiltIns": "entry",
+        "corejs": 3
       }
     ],
     [
@@ -15,10 +17,11 @@
     ]
   ],
   "plugins": [
+    "@babel/plugin-transform-runtime",
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-transform-runtime"
+    "@babel/plugin-syntax-dynamic-import"
+
 
   ]
 }
