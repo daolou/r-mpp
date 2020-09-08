@@ -11,7 +11,7 @@
   "scripts": {
     "pre-dev": "node scripts/dev.js",
     "pre-build": "node scripts/build.js",
-    "pre-analyz": "node scripts/analyz.js",
+    "pre-analyz": "node scripts/analyzer.js",
     "dev": "cross-env NODE_ENV=development NODE_CONFIG_ENV=dev webpack-dev-server --watch --color --config build/webpack.dev.conf.js",
     "build": "cross-env NODE_ENV=production NODE_CONFIG_ENV=prod webpack --config  build/webpack.prod.conf.js",
     "build:staging": "cross-env NODE_ENV=production NODE_CONFIG_ENV=staging webpack --config build/webpack.prod.conf.js --progress --color --hide-modules --display-chunks",
