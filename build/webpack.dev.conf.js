@@ -29,7 +29,7 @@ const webpackConfigDev = {
     // quiet: true,
     disableHostCheck: true,
     historyApiFallback: true,
-    //服务器代理配置项
+    // 服务器代理配置项
     proxy: {
       '/test/*': {
         target: '',
@@ -39,11 +39,11 @@ const webpackConfigDev = {
     },
   },
   optimization: {
-    //在开发环境中加，生产环境不加
+    // 在开发环境中加，生产环境不加
     usedExports: true,
   },
   plugins: [
-    //热更新
+    // 热更新
     new webpack.HotModuleReplacementPlugin(),
 
     // new DashboardPlugin(dashboard.setData),
@@ -51,7 +51,34 @@ const webpackConfigDev = {
   module: {
     rules: [
       {
-        test: /\.(le|c)ss$/,
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: false,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['last 10 versions'],
+                }),
+                require('postcss-plugin-px2rem')({
+                  exclude: /node_modules/,
+                  // unitPrecision: 5,
+                }),
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
         use: [
           'style-loader',
           {
@@ -89,7 +116,7 @@ portfinder.basePort = mergedConfig.devServer.port;
 
 module.exports = portfinder
   .getPortPromise()
-  .then(port => {
+  .then((port) => {
     mergedConfig.devServer.port = port;
     mergedConfig.plugins.push(
       new FriendlyErrorsWebpackPlugin({
@@ -101,7 +128,7 @@ module.exports = portfinder
     );
     return mergedConfig;
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(err);
     process.exit(1);
   });

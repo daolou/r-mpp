@@ -1,16 +1,6 @@
-// 根据命令行输入(`npm run pre-dev projectName`)获取工程名
-let projectName = process.argv[2];
-if (!projectName) {
-  projectName = require('./project').name;
-  if (projectName == 'undefined' || !projectName) {
-    const chalk = require('chalk');
-    console.log(chalk.red('请输入要运行的工程名'));
-    process.exit(1);
-  }
-} else {
-  const fs = require('fs');
-  fs.writeFileSync('./config/project.js', `exports.name = '${projectName}';\n`);
-}
+const getIP = require('../build/helper/getIP');
 
-const exec = require('child_process').execSync;
-exec('npm run dev', { stdio: 'inherit' });
+module.exports = {
+  pageURL: `http://${getIP()}:8090`,
+  app1: 'http://app1xxx',
+};

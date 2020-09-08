@@ -22,13 +22,13 @@ const map2DataType = {
  * @desc 判断数据的具体类型
  * @param {any} o - 要判断的数据
  */
-export const dataType = o => {
+export const dataType = (o) => {
   let r = Object.prototype.toString.call(o);
   if (map2DataType[r]) {
     return map2DataType[r];
   } else {
     // return r.replace('[object ', '').replace(']', '')
-    return r.replace(/^\[object\s(.*)\]$/, '$1');
+    return r.slice(8, -1);
   }
   // return Object.prototype.toString.call(o).replace('[object ', '').replace(']', '')
 };
@@ -69,7 +69,7 @@ export const ordinalSuffixOf = (i, lower = true) => {
  * @param {array} arr - 要打乱的原数组
  * @returns 返回打乱后的新数组
  */
-export const shuffle = arr => {
+export const shuffle = (arr) => {
   const newArr = [...arr];
   let m = newArr.length,
     i;
@@ -84,8 +84,8 @@ export const shuffle = arr => {
  * @desc react高阶组件, 用于给组件key,(nextProp != this.props时)更新渲染
  * @param {string} per - 指定 per(可选) 为组件的key, 否则默认当前的url
  */
-export const viewHoc = per => {
-  return ChildComponent => {
+export const viewHoc = (per) => {
+  return (ChildComponent) => {
     /* class Hoc extends Component {
 			// displayName 静态属性,保留原组件的名称,利于debug
 			static displayName = `Hoc${ChildComponent.displayName || ChildComponent.name || 'Component'}`
@@ -95,7 +95,7 @@ export const viewHoc = per => {
 				return <ChildComponent key={String(key)} {...props} />
 			}
 		} */
-    let Hoc = props => {
+    let Hoc = (props) => {
       // console.log(props)
       // eslint-disable-next-line react/prop-types
       let key = per ? props[per] : props.match.url;
@@ -125,7 +125,7 @@ export const css2obj = (str, opt = {}) => {
   // 去除最后一位空值
   arr1.pop();
   // 遍历得到的数组
-  arr1.forEach(item => {
+  arr1.forEach((item) => {
     // :分割得到['属性:属性值']
     const arr2 = item.split(':');
     // 将属性转为驼峰

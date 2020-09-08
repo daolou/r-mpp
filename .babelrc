@@ -8,7 +8,7 @@
           "ie": "8",
           "android": "4"
         },
-        "useBuiltIns": "entry",
+        "useBuiltIns": "usage", //按需添加polyfill,把用到的代码都转成低版本浏览器兼容的
         "corejs": 3
       }
     ],

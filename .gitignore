@@ -14,3 +14,4 @@ dists/
 # misc
 .DS_Store
 
+config/*local.js

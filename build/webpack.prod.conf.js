@@ -1,5 +1,6 @@
 const { resolve } = require('path');
 // const glob = require('glob');
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -11,18 +12,18 @@ const webpackConfigBase = require('./webpack.base.conf');
 const webpackConfigProd = {
   mode: 'production', // 通过 mode 声明生产环境
   // devtool: 'cheap-module-source-map',
-  stats: 'none',
+  stats: 'errors-only',
   plugins: [
-    //删除dist目录
+    // 删除dist目录
     new CleanWebpackPlugin(['dist'], {
-      root: resolve(__dirname, '../'), //根目录
+      root: resolve(__dirname, '../'), // 根目录
       // verbose Write logs to console.
-      verbose: true, //开启在控制台输出信息
+      verbose: true, // 开启在控制台输出信息
       // dry Use boolean "true" to test/emulate delete. (will not remove files).
       // Default: false - remove files
       dry: false,
     }),
-    //压缩css
+    // 压缩css
     new OptimizeCSSPlugin({
       cssProcessorOptions: {
         safe: true,
@@ -40,7 +41,33 @@ const webpackConfigProd = {
   module: {
     rules: [
       {
-        test: /\.(le|c)ss$/,
+        test: /\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              modules: false,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                require('autoprefixer')({
+                  overrideBrowserslist: ['last 10 versions'],
+                }),
+                require('postcss-plugin-px2rem')({
+                  exclude: /node_modules/,
+                }),
+              ],
+            },
+          },
+        ],
+      },
+      {
+        test: /\.less$/,
         use: [
           MiniCssExtractPlugin.loader,
           {
@@ -70,7 +97,7 @@ const webpackConfigProd = {
     ],
   },
   optimization: {
-    //上线压缩 去除console等信息webpack4.x之后去除了webpack.optimize.UglifyJsPlugin
+    // 上线压缩 去除console等信息webpack4.x之后去除了webpack.optimize.UglifyJsPlugin
     minimizer: [
       new TerserPlugin({
         exclude: /node_modules/,
@@ -88,7 +115,8 @@ const webpackConfigProd = {
             // 提取出出现多次但是没有定义成变量去引用的静态值
             reduce_vars: true,
             // 删除所有的 `console` 语句
-            pure_funcs: String(process.env.STAGING) === '1' ? [] : ['console.log', 'console.error'],
+            pure_funcs:
+              process.env.NODE_ENV === 'production' ? ['console.log', 'console.error'] : [],
           },
           output: {
             // 最紧凑的输出

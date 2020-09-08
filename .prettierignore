@@ -2,4 +2,8 @@
 **/*.svg
 **/*.ejs
 **/*.html
+lib/
 package.json
+dist
+dists
+doc

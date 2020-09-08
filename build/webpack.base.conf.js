@@ -2,23 +2,23 @@ const path = require('path');
 const webpack = require('webpack');
 const glob = require('glob');
 const fs = require('fs');
-const getIP = require('./helper/getIP');
+const chalk = require('chalk');
+const config = require('config');
 
-// require("./env-config");
-const projectConfig = require('../config/projectConfig');
-const isDev = process.env.NODE_ENV == 'development';
+const projectConfig = require('../scripts/projectConfig');
+const isDev = process.env.NODE_ENV === 'development';
 // px转rem
 // const px2rem = require('postcss-plugin-px2rem');
 // html模板
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-//静态资源输出
+// 静态资源输出
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 // 打包进度条
 const WebpackBar = require('webpackbar');
 
-const getEntry = function() {
+const getEntry = function () {
   const entry = {};
-  glob.sync(`${projectConfig.localPath}pages/**/*.js`).forEach(function(name) {
+  glob.sync(`${projectConfig.localPath}pages/**/*.js`).forEach(function (name) {
     const start = projectConfig.localPath.length + 6;
     const end = name.length - 3;
     const key = name.substring(start, end);
@@ -27,7 +27,7 @@ const getEntry = function() {
     entry[key] = values;
   });
 
-  glob.sync(`${projectConfig.localPath}pages/**/*.tsx`).forEach(function(name) {
+  glob.sync(`${projectConfig.localPath}pages/**/*.tsx`).forEach(function (name) {
     const start = projectConfig.localPath.length + 6;
     const end = name.length - 4;
     const key = name.substring(start, end);
@@ -38,7 +38,7 @@ const getEntry = function() {
   // console.log(entry);
   return entry;
 };
-const getTemplate = function(filename) {
+const getTemplate = function (filename) {
   if (!filename) {
     filename = 'document';
   }
@@ -48,7 +48,7 @@ const getTemplate = function(filename) {
   }
   return pathTemp;
 };
-const getHtmlConfig = function(name, template, only) {
+const getHtmlConfig = function (name, template, only) {
   return {
     template: getTemplate(template),
     templateParameters: { data: projectConfig.data, extra: projectConfig.extra },
@@ -56,7 +56,7 @@ const getHtmlConfig = function(name, template, only) {
     // favicon: './favicon.ico',
     // title: title,
     inject: true,
-    hash: !isDev, //开启hash  ?[hash]
+    hash: !isDev, // 开启hash  ?[hash]
     chunks: only ? [name] : ['vendor', 'commons', 'manifest', name],
     minify: isDev
       ? false
@@ -70,16 +70,24 @@ const getHtmlConfig = function(name, template, only) {
 
 const entryObj = getEntry();
 const htmlArr = [];
-Object.keys(entryObj).forEach(name => {
+Object.keys(entryObj).forEach((name) => {
   htmlArr.push(new HtmlWebpackPlugin(getHtmlConfig(name)));
 });
-const copyArr = [];
 
+const copyArr = [];
 copyArr.push({
   from: path.resolve(__dirname, '../src/public'),
   to: './',
   ignore: ['.*'],
 });
+const projectPublic = path.resolve(__dirname, '../', projectConfig.localPath, 'public');
+if (fs.existsSync(projectPublic)) {
+  copyArr.push({
+    from: projectPublic,
+    to: './',
+    ignore: ['.*'],
+  });
+}
 
 module.exports = {
   entry: entryObj,
@@ -141,23 +149,10 @@ module.exports = {
             // 需要下载file-loader和url-loader
             loader: 'url-loader',
             options: {
-              limit: 5 * 1024, //小于这个时将会已base64位图片打包处理
+              limit: 5 * 1024, // 小于这个时将会已base64位图片打包处理
               // 图片文件输出的文件夹
               outputPath: 'images',
             },
-          },
-        ],
-      },
-      {
-        test: require.resolve('jquery'),
-        use: [
-          {
-            loader: 'expose-loader',
-            options: 'jQuery',
-          },
-          {
-            loader: 'expose-loader',
-            options: '$',
           },
         ],
       },
@@ -192,11 +187,12 @@ module.exports = {
       '~src': path.resolve(__dirname, '../src'),
       '~node_modules': path.resolve(__dirname, '../node_modules'),
       '~config': path.resolve(__dirname, '../config'),
+      '~api': path.resolve(__dirname, '../api'),
     },
     // 能够在引入模块时不带扩展
     extensions: ['.js', '.json', '.ts', '.tsx'],
   },
-  //将外部变量或者模块加载进来
+  // 将外部变量或者模块加载进来
   externals: {
     // 'jquery': 'window.jQuery'
   },
@@ -207,7 +203,7 @@ module.exports = {
       cacheGroups: {
         vendor: {
           // 抽离第三方插件
-          /*eslint no-useless-escape: "off"*/
+          /* eslint no-useless-escape: "off" */
           test: /[\\/]node_modules[\\/](react|react-dom|fastclick|(\@babel)|core-js)[\\/]/, // 指定是node_modules下的第三方包
           chunks: 'initial',
           name: 'vendor', // 打包后的文件名，任意命名
@@ -229,13 +225,13 @@ module.exports = {
     new webpack.ProvidePlugin({}),
     new webpack.DefinePlugin({
       'process.env': {
-        SERVERIP: `"${getIP()}"`,
-        STAGING: `${process.env.STAGING}`,
+        API: JSON.stringify(JSON.stringify(config)),
+        NODE_CONFIG_ENV: JSON.stringify(config.util.getEnv('NODE_CONFIG_ENV')),
       },
     }),
     // 打包进度条
     new WebpackBar(),
-    //静态资源输出
+    // 静态资源输出
     new CopyWebpackPlugin(copyArr),
     ...htmlArr,
   ],

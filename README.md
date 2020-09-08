@@ -1,5 +1,7 @@
 # 多工程按需打包(mpp)
 
+> 多工程、多页面, 支持 js/ts, 支持同时本地运行多个工程, 移动端, 内嵌 h5
+
 ## 背景：
 
 1. 多个工程
@@ -19,54 +21,71 @@
 .
 ├── LICENSE
 ├── README.md
+├── api
+│   └── index.js
 ├── build (webpack 配置)
+│   ├── helper
+│   │   └── getIP.js
+│   ├── myloaders
+│   │   └── px2rem-loader.js
 │   ├── webpack.analyzer.conf.js
 │   ├── webpack.base.conf.js
 │   ├── webpack.dev.conf.js
-│   ├── webpack.prod.conf.js
-│   └── webpack.rules.conf.js
-├── config (工程配置)
-│   ├── analyzer.js
-│   ├── build.js
+│   └── webpack.prod.conf.js
+├── commitlint.config.js
+├── config (工程服务配置依赖于环境变量: NODE_CONFIG_ENV)
+│   ├── default.js
 │   ├── dev.js
-│   ├── project.js
-│   └── projectConfig.js
+│   ├── local.js
+│   ├── prod.js
+│   └── staging.js
 ├── deploy (部署脚本)
 │   ├── production.js
 │   └── staging.js
 ├── nginx.conf
 ├── package.json
-├── plugins
-└── src
-    ├── components (所有工程公用组件)
-    │   ├── AsyncComponent.js
-    │   └── ErrorBoundary.js
-    ├── project
-    │   ├── app1 (工程app1)
-    │   │   ├── app.js (入口文件)
-    │   │   ├── app.less (app1的全局样式)
-    │   │   ├── assets (静态资源)
-    │   │   │   └── share-hi.png
-    │   │   ├── components (app1的组件)
-    │   │   ├── document.njk (html模板)
-    │   │   └── pages (页面)
-    │   │       ├── Index.js
-    │   │       └── Questions.js
-    │   ├── app2
-    │   │   ├── app.js
-    │   │   ├── app.less
-    │   │   ├── assets
-    │   │   ├── document.njk
-    │   │   └── pages
-    │   └── document.njk (默认模板)
-    ├── public (所有工程公用静态文件)
-    │   └── favicon.ico
-    ├── services (所有工程公用服务文件)
-    │   └── androidBackService.js (安卓物理键返回)
-    └── utils (所有工程工具封装)
-        ├── NDB.js (我司jsbridge封装)
-        ├── index.js (个人常用工具函数)
-        └── rem.js (多屏幕适配)
+├── scripts (运行脚本)
+│   ├── analyzer.js
+│   ├── build.js
+│   ├── dev.js
+│   ├── project.js
+│   └── projectConfig.js (工程配置)
+├── src
+│   ├── components (所有工程公用组件)
+│   │   ├── AsyncComponent.js
+│   │   ├── ErrorBoundary.js
+│   │   └── Provider.js
+│   ├── project
+│   │   ├── app1 (工程app1: js语法)
+│   │   │   ├── components (app1的组件)
+│   │   │   ├── images (静态资源)
+│   │   │   │   └── share-hi.png
+│   │   │   ├── document.njk (html模板)
+│   │   │   └── pages (页面)
+│   │   │       ├── index.js (入口1)
+│   │   │       ├── index.less (入口1的样式)
+│   │   │       └── questions.js (入口2)
+│   │   ├── app2 (工程app2: ts语法)
+│   │   │   ├── components (app2的组件)
+│   │   │   ├── images (静态资源)
+│   │   │   │   └── share-hi.png
+│   │   │   ├── document.njk (html模板)
+│   │   │   └── pages (页面)
+│   │   │       ├── index.tsx (入口1)
+│   │   │       ├── index.less (入口1的样式)
+│   │   │       └── questions.tsx (入口2)
+│   │   └── document.njk (默认模板)
+│   ├── public (所有工程公用静态文件)
+│   │   └── favicon.ico
+│   ├── services (所有工程公用服务文件)
+│   │   └── androidBackService.js (安卓物理键返回)
+│   └── utils (所有工程工具封装)
+│       ├── NDB.js (我司jsbridge封装)
+│       ├── index.js (个人常用工具函数)
+│       └── rem.js (多屏幕适配)
+├── tsconfig.json
+└── typings
+    └── index.d.ts
 ```
 
 ==ps: 编辑器请安装eslint和prettier插件==
@@ -90,7 +109,8 @@
 
 ## 本地nginx服务
 
-1. 复制`nginx.conf`到自己的nginx配置目录
-2. 将root修改为自己本机的项目目录
-3. `sudo nginx -s reload`
-4. `http://localhost:8091/activity4/app1`
+1. 本地部署 `npm run deploy:staging app1`
+2. 复制`nginx.conf`到自己的nginx配置目录
+3. 将root修改为自己本机的项目目录
+4. `sudo nginx -s reload`
+5. `http://localhost:8099/activity4/app1`

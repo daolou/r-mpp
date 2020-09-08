@@ -1,6 +1,6 @@
-import { androidBackEvent } from '../utils/NDB';
+import { androidBackEvent } from '~src/utils/NDB';
 
-export default Component => {
+export default (Component) => {
   // console.log(Component.prototype)
   // console.log(Component.onAndroidBackClick)
   const originAndroidBackClick = Component.prototype.onAndroidBackClick;
@@ -10,7 +10,7 @@ export default Component => {
   }
 
   const originDidmount = Component.prototype.componentDidMount;
-  Component.prototype.componentDidMount = function() {
+  Component.prototype.componentDidMount = function () {
     // console.log(originDidmount,Component.prototype)
     // console.log(Component.prototype,androidBackEvent)
     // console.log(Component.onAndroidBackClick)
@@ -25,7 +25,7 @@ export default Component => {
 
   const originUnmount = Component.prototype.componentWillUnmount;
   // androidBackEvent.addEventListener(Component.prototype.onAndroidBackClick)
-  Component.prototype.componentWillUnmount = function() {
+  Component.prototype.componentWillUnmount = function () {
     androidBackEvent.removeEventListener(Component.prototype.onAndroidBackClick);
     if (originUnmount) {
       originUnmount.call(this, ...arguments);

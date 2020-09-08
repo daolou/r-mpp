@@ -2,3 +2,6 @@ dist/
 dists/
 node_modules/
 utils/
+lib/
+src/**/*.tsx
+src/**/*.ts
