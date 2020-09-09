@@ -109,10 +109,11 @@
 
 `npm run pre-analyz app1`
 
-## 本地nginx服务
+## 本地/测试机 nginx 服务
 
-1. 本地部署 `npm run deploy:staging app1`
-2. 复制`nginx.conf`到自己的nginx配置目录
-3. 将root修改为自己本机的项目目录
-4. `sudo nginx -s reload`
-5. `http://localhost:8099/activity4/app1`
+1. 打包部署 `npm run deploy:staging app1`
+2. 复制`nginx.conf`到`nginx`配置目录
+3. 根据个人情况选择是否开启`access_log`
+4. 将`alias`修改为本机的项目目录
+5. `sudo nginx -s reload`
+6. `http://localhost:8099/activity4/app1`
