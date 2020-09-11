@@ -63,6 +63,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "dayjs": "^1.8.17",
+    "devmoji": "^2.1.9",
     "eslint": "^7.7.0",
     "eslint-config-alloy": "^3.7.4",
     "eslint-plugin-react": "^7.20.6",
@@ -103,6 +104,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
+      "prepare-commit-msg": "devmoji -e --lint",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
